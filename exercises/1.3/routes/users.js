@@ -1,11 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-let getMethod = 0;
-
-/* GET home page. */
+/* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.send('respond with a resource');
 });
 
 module.exports = router;
