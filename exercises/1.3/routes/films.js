@@ -30,7 +30,7 @@ router.get('/', (req, res, next) => {
   const duree = req?.query?.['minimum-duration']? req.query['minimum-duration'] : undefined;
   let filmDuree = [];
   if(duree === undefined) {
-    filmDuree = [...FILMS];
+    res.sendStatus(400);
   } else {
     for (let i = 0 ; i < FILMS.length ; i++) {
       if(FILMS[i].duration >= duree) {
@@ -43,6 +43,9 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
+  if(id > FILMS.length){
+    return res.sendStatus(404);
+  }
   let movie = {};
   for (let i = 0 ; i < FILMS.length ; i++) {
     if (FILMS[i].id == id) {
@@ -56,6 +59,8 @@ router.post('/', (req, res, next) => {
   const newFilm = {id : FILMS.length + 1, title : req.body.title, duration : req.body.duration, budget : req.body.budget, link : req.body.link};
   if(newFilm.duration > 0 && newFilm.budget > 0) {
     FILMS.push(newFilm);
+  } else {
+    res.sendStatus(400);
   }
   res.redirect('/');
 });

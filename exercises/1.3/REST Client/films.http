@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
     "title":"Ratatouille",
-    "duration":"80",
+    "duration":"2",
     "budget":"1",
     "link":"https://fr.wikipedia.org/wiki/Ratatouille_(film)"
 }
