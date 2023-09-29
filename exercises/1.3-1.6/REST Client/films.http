@@ -10,7 +10,7 @@ GET {{baseUrl}}/films?minimum-duration=120
 GET {{baseUrl}}/films/5
 
 ### Create one movie
-POST {{baseUrl}}/films/createMovie
+POST {{baseUrl}}/films/
 Content-Type: application/json
 
 {

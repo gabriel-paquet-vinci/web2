@@ -28,31 +28,19 @@ let FILMS = [
 
 router.get('/', (req, res, next) => {
   const duree = req?.query?.['minimum-duration']? req.query['minimum-duration'] : undefined;
-
-  let filmDuree = [];
-
-  if(duree === undefined) return res.json(FILMS);
   
-  filmDuree = [...FILMS].filter(film => film.duration >= duree);
-
-  res.json(filmDuree);
+  res.json(duree === undefined ? FILMS : [...FILMS].filter(film => film.duration >= duree));
 });
 
 router.get('/:id', (req, res, next) => {
-  const id = req.params.id;
+  const filmIndex = FILMS.findIndex((film) => film.id == req.params.id);
 
-  if(id > FILMS.length) return res.sendStatus(404);
-  
-  let movie = {};
-  for (let i = 0 ; i < FILMS.length ; i++) {
-    if (FILMS[i].id == id) {
-      movie = FILMS[i];
-    }
-  }
-  res.json(movie);
+  if(!filmIndex) return res.sendStatus(400);
+
+  res.json(FILMS[filmIndex]);
 });
 
-router.post('/createMovie', (req, res, next) => {
+router.post('/', (req, res, next) => {
   const newFilm = {id : FILMS.length + 1, title : req.body.title, duration : req.body.duration, budget : req.body.budget, link : req.body.link};
 
   if(newFilm.duration > 0 && newFilm.budget > 0) FILMS.push(newFilm);
@@ -100,7 +88,7 @@ router.put('/:id', (req, res, next) => {
       return res.json(film);
     }
   }
-  
+
   FILMS.push(film);
   res.json(film);
 });
