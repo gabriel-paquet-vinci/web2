@@ -32,9 +32,11 @@ let FILMS = [
 router.get('/', (req, res, next) => {
   const duree = req?.query?.['minimum-duration']? req.query['minimum-duration'] : undefined;
 
-  const movies = parse(jsonDbPath, FILMS);
+  const movies = parse(jsonDbPath, FILMS).sort((a,b) => a.id - b.id);
+  let sortedMovies;
+  if(duree) sortedMovies = [...movies].filter(movie => movie.duration >= duree);
   
-  res.json(duree === undefined ? movies : [...movies].filter(movie => movie.duration >= duree));
+  res.json(duree === undefined ? movies : sortedMovies);
 });
 
 router.get('/:id', (req, res, next) => {
@@ -58,7 +60,7 @@ router.post('/', (req, res, next) => {
     if(movies[i].id > id) id = movies[i].id;
   }
 
-  newFilm.id = id;
+  newFilm.id = id+1;
   if(newFilm.duration > 0 && newFilm.budget > 0) {
     movies.push(newFilm);
     serialize(jsonDbPath, movies);
@@ -76,7 +78,7 @@ router.delete('/:id',(req, res, next) => {
 
   if(filmId === undefined) return res.sendStatus(404);
   
-  for(let i = 0 ; i < FILMS.length ; i++){
+  for(let i = 0 ; i < movies.length ; i++){
     if(movies[i].id == filmId) movies.splice(i, 1);
   }
 
