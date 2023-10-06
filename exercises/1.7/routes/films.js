@@ -89,7 +89,7 @@ router.delete('/:id',(req, res, next) => {
 
 router.patch('/:id', (req, res, next) => {
 
-  const movies = parse(jsonDbPath, FILMS);
+  const movies = parse(jsonDbPath , FILMS);
 
   const title = req?.body?.title;
   const duration = req?.body?.duration;
