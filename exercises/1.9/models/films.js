@@ -73,9 +73,15 @@ function removeOneMovie(id) {
   return deletedMovie;
 }
 
+function editOneMovie(movie) {
+  const movies = parse(jsonDbPath, FILMS);
+
+}
+
 module.exports = {
   readAllMovies,
   readOneMovie,
   addOneMovie,
-  removeOneMovie
+  removeOneMovie,
+  editOneMovie
 };

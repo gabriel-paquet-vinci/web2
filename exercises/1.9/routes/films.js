@@ -3,7 +3,8 @@ const {
   readAllMovies,
   readOneMovie,
   addOneMovie,
-  removeOneMovie
+  removeOneMovie,
+  editOneMovie,
 } = require('../models/films');
 
 const router = express.Router();
@@ -25,7 +26,6 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-
   const newFilm = {
     id: 0,
     title: req.body.title,
@@ -36,7 +36,7 @@ router.post('/', (req, res) => {
 
   const addedMovie = addOneMovie(newFilm);
 
-  if(!addedMovie) return res.sendStatus(404);
+  if (!addedMovie) return res.sendStatus(404);
 
   return res.json(addedMovie);
 });
@@ -44,14 +44,12 @@ router.post('/', (req, res) => {
 router.delete('/:id', (req, res) => {
   const deletedMovie = removeOneMovie(req.params.id);
 
-  if(!deletedMovie) res.sendStatus(404);
+  if (!deletedMovie) res.sendStatus(404);
 
   return res.redirect('/');
 });
 
-router.patch('/:id', (req, res) => {
-  const movies = parse(jsonDbPath, FILMS);
-
+router.patch('/:id', (req, res, next) => {
   const title = req?.body?.title;
   const duration = req?.body?.duration;
   const budget = req?.body?.budget;
