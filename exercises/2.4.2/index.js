@@ -9,6 +9,7 @@ const startButtonDiv = document.querySelector(".startButton");
 const startButton = document.querySelector("#startButton");
 
 let intervalId;
+let previous;
 
 stopButton.addEventListener("click", stopFireLight);
 startButton.addEventListener("click", startFireLight);
@@ -20,16 +21,21 @@ function startClock() {
 }
 
 function goNext() {
-    console.log("Red : " + red.style.backgroundColor + " Orange : " + orange.style.backgroundColor + " Green : " + green.style.backgroundColor);
     if(red.style.backgroundColor === "red") {
+        previous = "red";
         red.style.backgroundColor = "";
         orange.style.backgroundColor = "orange";
     } else if (orange.style.backgroundColor === "orange") {
         orange.style.backgroundColor = "";
-        green.style.backgroundColor = "green";
+        if(previous === "red") {
+            green.style.backgroundColor = "green";
+        } else {
+            red.style.backgroundColor = "red";
+        }
     } else {
+        previous = "green";
         green.style.backgroundColor = "";
-        red.style.backgroundColor = "red";
+        orange.style.backgroundColor = "orange";
     }
 }
 
